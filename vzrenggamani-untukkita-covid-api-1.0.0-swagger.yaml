@@ -1,0 +1,238 @@
+openapi: "3.0.2"
+info:
+  title: UntukKita API - COVID Sidoarjo Datalake
+  version: 1.0.0
+  termsOfService: https://api.untukkita.my.id/term-of-service
+  contact:
+    name: Rengga Prakoso Nugroho
+    email: rengga.prakoso.2001216@students.um.ac.id
+    url: https://github.com/untukkita-id
+  license:
+    name: Apache License 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  description: UntukKita API
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/vzrenggamani/untukkita-covid-api/1.0.0
+  - url: https://api.untukkita.my.id/covid/sda
+paths:
+  /:
+    get:
+      summary: "Get API Status"
+      description: "Get API Status"
+      operationId: "getStatus"
+      tags:
+        - "Public Endpoint"
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: "API Status"
+                  version:
+                    type: string
+                    description: "API Version"
+                  uptime:
+                    type: string
+                    description: "API Uptime"
+                  timestamp:
+                    type: string
+                    description: "API Timestamp"
+                  message:
+                    type: string
+                    description: "API Message"
+  /fasilitaskesehatan:
+    get:
+      summary: "Get Fasilitas Kesehatan"
+      description: "Get Fasilitas Kesehatan"
+      operationId: "getFasilitasKesehatan"
+      tags:
+        - "Public Endpoint"
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FasilitasKesehatan"
+
+        404:
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /kasus:
+    get:
+      summary: "Get Kasus"
+      description: "Get Kasus"
+      operationId: "getKasus"
+      tags:
+        - "Public Endpoint"
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatistikCovid"
+
+  /vaksinasi:
+    get:
+      summary: "Get Vaksinasi"
+      description: "Get Vaksinasi"
+      operationId: "getVaksinasi"
+      tags:
+        - "Public Endpoint"
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DataVaksinasi"
+security: [{}]
+components:
+  schemas:
+    FasilitasKesehatan:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nama_faskes:
+          type: string
+        jenis:
+          type: string
+        kontak:
+          type: string
+        alamat:
+          type: string
+        sosialmedia:
+          type: string
+        verifikasi:
+          type: string
+        sumberdata:
+          type: string
+      required:
+        - "id"
+        - "nama_faskes"
+        - "jenis"
+        - "kontak"
+        - "alamat"
+        - "sosialmedia"
+      example:
+        id: 1
+        nama_faskes: "RSU Dr. Soetomo"
+        jenis: "Rumah Sakit Umum"
+        kontak: "0812-1234-1234"
+        alamat: "Jl. Dr. Soetomo No. 1"
+        sosialmedia: "https://www.facebook.com/drsoetomo"
+        verifikasi: "Verifikasi"
+        sumberdata: "Sumber Data"
+
+    DataVaksinasi:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        penyelenggara:
+          type: string
+        kuota:
+          type: integer
+        jenis:
+          type: string
+        cakupan:
+          type: string
+        lokasi:
+          type: string
+        sosialmedia:
+          type: string
+        narahubung:
+          type: string
+        pelaksanaan:
+          type: string
+          format: date
+        verifikasi:
+          type: boolean
+      required:
+        - "id"
+        - "penyelenggara"
+        - "kuota"
+        - "jenis"
+        - "cakupan"
+        - "lokasi"
+        - "sosialmedia"
+        - "narahubung"
+        - "pelaksanaan"
+        - "verifikasi"
+      example:
+        id: 1
+        penyelenggara: "RSU Dr. Soetomo"
+        kuota: 100
+        jenis: "Sinovac"
+        cakupan: "Umum"
+        lokasi: "Jl. Dr. Soetomo No. 1"
+        sosialmedia: "https://www.facebook.com/drsoetomo"
+        narahubung: "0812-1234-1234"
+        pelaksanaan: "2020-01-01"
+        verifikasi: true
+
+    StatistikCovid:
+      type: object
+      properties:
+        positif:
+          type: integer
+          format: int64
+        sembuh:
+          type: integer
+          format: int64
+        meninggal:
+          type: integer
+          format: int64
+        updateTerakhir:
+          type: string
+          format: date
+      required:
+        - "positif"
+        - "sembuh"
+        - "meninggal"
+        - "updateTerakhir"
+      example:
+        positif: 100
+        sembuh: 10
+        meninggal: 1
+        updateTerakhir: "2020-04-01"
+
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: "API Status"
+        type:
+          type: string
+          description: "API Type"
+        message:
+          type: string
+          description: "API Message"
+        timestamp:
+          type: string
+          description: "API Timestamp"
+      required:
+        - "status"
+        - "type"
+        - "message"
+        - "timestamp"
+      example:
+        status: 404
+        type: "RoutesNotFound"
+        message: "Not Found"
+        timestamp: "2020-04-01"
