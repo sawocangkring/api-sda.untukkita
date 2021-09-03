@@ -8,6 +8,14 @@
       }
     }
   },
+  "extensions": {
+    "http": {
+      "routePrefix": "",
+      "customHeaders": {
+        "Cache-Control" : "public max-age=21600"
+      }
+    }
+  },
   "extensionBundle": {
     "id": "Microsoft.Azure.Functions.ExtensionBundle",
     "version": "[2.*, 3.0.0)"

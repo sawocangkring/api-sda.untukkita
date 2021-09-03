@@ -1,4 +1,13 @@
 {
   "$schema": "http://json.schemastore.org/proxies",
-  "proxies": {}
+  "proxies": {
+    "Root": {
+      "disabled": false,
+      "matchCondition": {
+        "route": "",
+        "methods": ["GET"]
+      },
+      "backendUri": "https://api.sda.untukkita.my.id/status"
+    }
+  }
 }
