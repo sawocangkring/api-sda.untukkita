@@ -116,3 +116,4 @@ appsettings.json
 local.settings.json
 # TernJS port file
 .tern-port
+*.sample.dat
